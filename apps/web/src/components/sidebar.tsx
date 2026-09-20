@@ -1,0 +1,154 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { 
+  LayoutDashboard, 
+  FileText, 
+  HelpCircle, 
+  FolderGit2, 
+  Sparkles, 
+  BrainCircuit, 
+  Bookmark, 
+  UploadCloud, 
+  CheckSquare, 
+  ShieldCheck, 
+  Settings,
+  ChevronRight,
+  GraduationCap
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+export function Sidebar() {
+  const pathname = usePathname();
+
+  const mainNavigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Paper Archive', href: '/papers', icon: FileText, badge: 'MSBTE' },
+    { name: 'Question Bank', href: '/question-bank', icon: HelpCircle, badge: 'PYQ' },
+    { name: 'Study Materials', href: '/study-materials', icon: FolderGit2 },
+    { name: 'NexusAI Tutor', href: '/ai-tutor', icon: Sparkles, highlight: true },
+    { name: 'Exam Prep & Quizzes', href: '/exam-prep', icon: BrainCircuit },
+    { name: 'Saved Library', href: '/bookmarks', icon: Bookmark },
+  ];
+
+  const workflowNavigation = [
+    { name: 'Upload / Contribute', href: '/contribute', icon: UploadCloud },
+    { name: 'Moderation Queue', href: '/moderation', icon: CheckSquare, badge: '3' },
+    { name: 'Admin Dashboard', href: '/admin', icon: ShieldCheck },
+  ];
+
+  return (
+    <aside className="w-64 glass-panel border-r border-slate-800/80 bg-slate-950/60 hidden md:flex flex-col justify-between h-[calc(100vh-4rem)] sticky top-16 select-none">
+      <div className="p-4 space-y-6 overflow-y-auto">
+        
+        {/* Academic Context Selector */}
+        <div className="p-3 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-800/80 border border-slate-800 shadow-sm">
+          <div className="flex items-center gap-2 mb-1">
+            <GraduationCap className="h-4 w-4 text-blue-400" />
+            <span className="text-xs font-semibold text-slate-300">Active Academic Track</span>
+          </div>
+          <p className="text-sm font-bold text-white">Computer Engineering</p>
+          <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
+            <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">
+              Semester 4 (K-Scheme)
+            </span>
+            <Link href="/settings" className="text-xs text-blue-400 hover:underline">
+              Change
+            </Link>
+          </div>
+        </div>
+
+        {/* Main Section */}
+        <div>
+          <h3 className="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            Academic Nexus
+          </h3>
+          <nav className="space-y-1">
+            {mainNavigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all group",
+                    isActive
+                      ? "bg-blue-600/15 text-blue-400 border border-blue-500/30 shadow-sm"
+                      : "text-slate-400 hover:text-white hover:bg-slate-900/60",
+                    item.highlight && !isActive && "text-indigo-300 bg-indigo-500/10 border border-indigo-500/20"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isActive ? "text-blue-400" : item.highlight ? "text-indigo-400" : "text-slate-400")} />
+                    <span>{item.name}</span>
+                  </div>
+                  {item.badge && (
+                    <span className={cn(
+                      "px-2 py-0.5 text-[10px] font-bold rounded-md uppercase",
+                      item.highlight ? "bg-indigo-500/20 text-indigo-300" : "bg-slate-800 text-slate-400"
+                    )}>
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Workflows & Admin */}
+        <div>
+          <h3 className="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            Contribute & Manage
+          </h3>
+          <nav className="space-y-1">
+            {workflowNavigation.map((item) => {
+              const isActive = pathname === item.href;
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all group",
+                    isActive
+                      ? "bg-purple-600/15 text-purple-400 border border-purple-500/30"
+                      : "text-slate-400 hover:text-white hover:bg-slate-900/60"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className={cn("h-4 w-4", isActive ? "text-purple-400" : "text-slate-400")} />
+                    <span>{item.name}</span>
+                  </div>
+                  {item.badge && (
+                    <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-purple-500/20 text-purple-300">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+      </div>
+
+      {/* Footer / Settings Link */}
+      <div className="p-4 border-t border-slate-800/80 bg-slate-950/80">
+        <Link
+          href="/settings"
+          className="flex items-center justify-between p-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <Settings className="h-4 w-4" />
+            <span>Preferences & Settings</span>
+          </div>
+          <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
+        </Link>
+      </div>
+    </aside>
+  );
+}
