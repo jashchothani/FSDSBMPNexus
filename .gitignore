@@ -43,6 +43,7 @@ docker-compose.override.yml
 # Storage (local uploads in dev)
 uploads/
 tmp/
+data/
 
 # TypeScript
 *.tsbuildinfo

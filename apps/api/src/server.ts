@@ -1,4 +1,14 @@
-import 'dotenv/config';
+import path from 'path';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -9,6 +19,8 @@ import { connectDB } from '@repo/database';
 import { createAIProvider } from '@repo/ai';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware.js';
 import { createRoutes } from './routes/index.js';
+import { createServer } from 'http';
+import { initSocketServer } from './socket.js';
 
 async function main() {
   // 1. Validate environment
@@ -67,12 +79,20 @@ async function main() {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  // 9. Start server
+  // 9. Create HTTP Server & Initialize Socket.IO
+  const httpServer = createServer(app);
+  const io = initSocketServer(httpServer);
+
+  // Attach io to app locals so routes can use it if needed
+  app.locals.io = io;
+
+  // 10. Start server
   const port = env.PORT;
-  app.listen(port, () => {
+  httpServer.listen(port, () => {
     console.log(`✅ API server running at http://localhost:${port}`);
     console.log(`   Health: http://localhost:${port}/health`);
-    console.log(`   API:    http://localhost:${port}/api\n`);
+    console.log(`   API:    http://localhost:${port}/api`);
+    console.log(`   Socket: ws://localhost:${port}\n`);
   });
 }
 

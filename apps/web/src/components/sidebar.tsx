@@ -16,7 +16,11 @@ import {
   ShieldCheck, 
   Settings,
   ChevronRight,
-  GraduationCap
+  GraduationCap,
+  Swords,
+  Code2,
+  Users,
+  Trophy
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -25,12 +29,24 @@ export function Sidebar() {
 
   const mainNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Nexus Arena', href: '/arena', icon: Swords, highlight: true, badge: 'NEW' },
     { name: 'Paper Archive', href: '/papers', icon: FileText, badge: 'MSBTE' },
     { name: 'Question Bank', href: '/question-bank', icon: HelpCircle, badge: 'PYQ' },
     { name: 'Study Materials', href: '/study-materials', icon: FolderGit2 },
-    { name: 'NexusAI Tutor', href: '/ai-tutor', icon: Sparkles, highlight: true },
+    { name: 'NexusAI Tutor', href: '/ai-tutor', icon: Sparkles },
     { name: 'Exam Prep & Quizzes', href: '/exam-prep', icon: BrainCircuit },
     { name: 'Saved Library', href: '/bookmarks', icon: Bookmark },
+  ];
+
+  const arenaNavigation = [
+    { name: 'Arena Hub', href: '/arena', icon: LayoutDashboard },
+    { name: 'Problems', href: '/arena/problems', icon: Code2 },
+    { name: 'Study Rooms', href: '/arena/rooms', icon: Users },
+    { name: 'Code Clash 1v1', href: '/arena/clash', icon: Swords, badge: 'HOT' },
+    { name: 'Global Messenger', href: '/arena/chat', icon: Sparkles },
+    { name: 'Match History', href: '/arena/history', icon: CheckSquare },
+    { name: 'Skill Profile', href: '/arena/profile', icon: GraduationCap },
+    { name: 'Leaderboard', href: '/arena/leaderboard', icon: Trophy },
   ];
 
   const workflowNavigation = [
@@ -98,6 +114,36 @@ export function Sidebar() {
             })}
           </nav>
         </div>
+
+        {/* Arena Sub-Nav — only show when on arena pages */}
+        {pathname?.startsWith('/arena') && (
+          <div>
+            <h3 className="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Arena Navigation
+            </h3>
+            <nav className="space-y-1">
+              {arenaNavigation.map((item) => {
+                const isActive = pathname === item.href;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all group",
+                      isActive
+                        ? "bg-indigo-600/15 text-indigo-400 border border-indigo-500/30"
+                        : "text-slate-400 hover:text-white hover:bg-slate-900/60"
+                    )}
+                  >
+                    <Icon className={cn("h-4 w-4", isActive ? "text-indigo-400" : "text-slate-500")} />
+                    <span>{item.name}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        )}
 
         {/* Workflows & Admin */}
         <div>

@@ -153,3 +153,28 @@ export {
   type SearchQueryInput,
   type IDownloadHistory,
 } from './api.types.js';
+
+// Arena & Code
+export {
+  type ITestCase,
+  type IProblem,
+  type ISubmission,
+  type IMatch,
+  type IAchievement,
+  type IUserAchievement,
+  type IXPTransaction,
+  type ILeaderboardEntry,
+} from './arena.types.js';
+
+// Chat
+export {
+  type IConversation,
+  type IMessage,
+} from './chat.types.js';
+
+// Room
+export {
+  type IRoom,
+  type IRoomMember,
+} from './room.types.js';
+

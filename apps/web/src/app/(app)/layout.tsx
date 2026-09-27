@@ -5,6 +5,7 @@ import { Navbar } from '@/components/navbar';
 import { Sidebar } from '@/components/sidebar';
 import { CommandPalette } from '@/components/command-palette';
 import { NexusAiWidget } from '@/components/nexus-ai-widget';
+import { NexusChatWidget } from '@/components/nexus-chat-widget';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [isCmdOpen, setIsCmdOpen] = useState(false);
@@ -32,6 +33,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         isOpen={isAiWidgetOpen} 
         onClose={() => setIsAiWidgetOpen(false)} 
       />
+      
+      <NexusChatWidget />
     </div>
   );
 }

@@ -47,3 +47,16 @@ export {
   type AuditLogDocument,
   type DownloadHistoryDocument,
 } from './models/misc.model.js';
+
+// Arena & Chat Models
+export { Conversation, type ConversationDocument } from './models/conversation.model.js';
+export { Message, Message as ChatMessage, type MessageDocument } from './models/message.model.js';
+export { Room, Room as ArenaRoom, RoomMember, type RoomDocument, type RoomMemberDocument } from './models/room.model.js';
+export { Problem, type ProblemDocument } from './models/problem.model.js';
+export { Submission, type SubmissionDocument } from './models/submission.model.js';
+export { Match, type MatchDocument } from './models/match.model.js';
+export { Achievement, UserAchievement, type AchievementDocument, type UserAchievementDocument } from './models/achievement.model.js';
+export { XPTransaction, type XPTransactionDocument } from './models/xp-transaction.model.js';
+export { Leaderboard, type LeaderboardDocument } from './models/leaderboard.model.js';
+
+

@@ -3,6 +3,9 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { SocketProvider } from './socket-provider';
+
+import { AuthProvider } from '@/lib/auth-context';
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -19,14 +22,18 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextThemesProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem={false}
-        disableTransitionOnChange
-      >
-        {children}
-      </NextThemesProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <NextThemesProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            {children}
+          </NextThemesProvider>
+        </SocketProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

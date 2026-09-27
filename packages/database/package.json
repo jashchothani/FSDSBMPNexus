@@ -11,12 +11,13 @@
     "seed": "tsx src/seed.ts"
   },
   "dependencies": {
-    "mongoose": "^8.12.0",
+    "@repo/config": "workspace:*",
     "@repo/types": "workspace:*",
-    "@repo/config": "workspace:*"
+    "mongoose": "^8.12.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "tsx": "^4.19.0"
+    "mongodb-memory-server": "^11.3.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
   }
 }
