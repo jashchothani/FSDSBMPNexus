@@ -11,9 +11,25 @@ import {
   ArrowRight,
   X,
   Clock,
-  Layers
+  Layers,
+  Wrench,
+  Presentation,
+  FileCheck,
+  FileEdit,
+  Image,
+  Share2
 } from 'lucide-react';
 import { MOCK_PAPERS, MOCK_QUESTIONS } from '@/lib/api-client';
+
+const ACADEMIC_TOOLS = [
+  { name: 'Academic Tools Hub', href: '/tools', icon: Wrench, desc: 'Central suite with all 6 academic tools' },
+  { name: 'PPT → PDF Converter', href: '/tools/ppt-to-pdf', icon: Presentation, desc: 'Convert college slides to PDF' },
+  { name: 'Word → PDF Converter', href: '/tools/word-to-pdf', icon: FileCheck, desc: 'Convert notices and assignments to PDF' },
+  { name: 'PDF → Word (.docx) Editor', href: '/tools/pdf-to-word', icon: FileEdit, desc: 'Extract & edit question papers into Word' },
+  { name: 'ID Photo Background Remover', href: '/tools/background-remover', icon: Image, desc: 'Make ID card photos & hall tickets' },
+  { name: 'Private Temporary Clipboard', href: '/tools/clipboard', icon: Share2, desc: 'Transfer text & files between lab PC and phone' },
+  { name: 'PDF Merge / Split / Compress', href: '/tools/pdf-manage', icon: Layers, desc: 'Manage exam PDFs, combine or shrink < 2MB' },
+];
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -41,6 +57,11 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
 
   if (!isOpen) return null;
 
+  const filteredTools = ACADEMIC_TOOLS.filter(t =>
+    t.name.toLowerCase().includes(query.toLowerCase()) ||
+    t.desc.toLowerCase().includes(query.toLowerCase())
+  );
+
   const filteredPapers = MOCK_PAPERS.filter(p => 
     p.title.toLowerCase().includes(query.toLowerCase()) || 
     p.subject.toLowerCase().includes(query.toLowerCase()) ||
@@ -66,7 +87,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search papers, questions, topics, or ask AI..."
+            placeholder="Search tools, papers, questions, topics, or ask AI..."
             autoFocus
             className="w-full bg-transparent text-sm text-white placeholder-slate-500 focus:outline-none"
           />
@@ -100,6 +121,46 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                 </div>
               </div>
               <ArrowRight className="h-4 w-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
+            </div>
+          )}
+
+          {/* Academic Tools Section */}
+          {filteredTools.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between px-2 mb-2">
+                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <Wrench className="h-3.5 w-3.5 text-emerald-400" />
+                  Academic Utilities ({filteredTools.length})
+                </span>
+              </div>
+              <div className="space-y-1">
+                {filteredTools.map((t) => {
+                  const ToolIcon = t.icon;
+                  return (
+                    <div
+                      key={t.name}
+                      onClick={() => {
+                        router.push(t.href);
+                        onClose();
+                      }}
+                      className="p-2.5 rounded-xl hover:bg-slate-800/80 cursor-pointer flex items-center justify-between transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-500/20">
+                          <ToolIcon className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                            {t.name}
+                          </p>
+                          <p className="text-[10px] text-slate-400">{t.desc}</p>
+                        </div>
+                      </div>
+                      <ArrowRight className="h-3.5 w-3.5 text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 

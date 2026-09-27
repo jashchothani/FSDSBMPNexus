@@ -16,7 +16,14 @@ import {
   ShieldCheck, 
   Settings,
   ChevronRight,
-  GraduationCap
+  GraduationCap,
+  Wrench,
+  Presentation,
+  FileCheck,
+  FileEdit,
+  Image,
+  Share2,
+  Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -31,6 +38,16 @@ export function Sidebar() {
     { name: 'NexusAI Tutor', href: '/ai-tutor', icon: Sparkles, highlight: true },
     { name: 'Exam Prep & Quizzes', href: '/exam-prep', icon: BrainCircuit },
     { name: 'Saved Library', href: '/bookmarks', icon: Bookmark },
+  ];
+
+  const toolsNavigation = [
+    { name: 'Academic Tools Hub', href: '/tools', icon: Wrench, badge: '6 Tools' },
+    { name: 'PPT → PDF', href: '/tools/ppt-to-pdf', icon: Presentation },
+    { name: 'Word → PDF', href: '/tools/word-to-pdf', icon: FileCheck },
+    { name: 'PDF → Word', href: '/tools/pdf-to-word', icon: FileEdit },
+    { name: 'ID & Photo BG Remover', href: '/tools/background-remover', icon: Image },
+    { name: 'Temp Clipboard', href: '/tools/clipboard', icon: Share2, badge: 'Sync' },
+    { name: 'PDF Merge / Split / Comp', href: '/tools/pdf-manage', icon: Layers },
   ];
 
   const workflowNavigation = [
@@ -90,6 +107,46 @@ export function Sidebar() {
                       "px-2 py-0.5 text-[10px] font-bold rounded-md uppercase",
                       item.highlight ? "bg-indigo-500/20 text-indigo-300" : "bg-slate-800 text-slate-400"
                     )}>
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Academic Utilities Suite */}
+        <div>
+          <div className="flex items-center justify-between px-3 mb-2">
+            <h3 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+              Document Tools
+            </h3>
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/25">
+              NEW
+            </span>
+          </div>
+          <nav className="space-y-1">
+            {toolsNavigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/tools' && pathname?.startsWith(item.href));
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group",
+                    isActive
+                      ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30 shadow-sm"
+                      : "text-slate-400 hover:text-white hover:bg-slate-900/60"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={cn("h-3.5 w-3.5 transition-transform group-hover:scale-110", isActive ? "text-emerald-400" : "text-slate-400")} />
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                  {item.badge && (
+                    <span className="px-1.5 py-0.2 text-[9px] font-semibold rounded bg-slate-800 text-slate-300">
                       {item.badge}
                     </span>
                   )}

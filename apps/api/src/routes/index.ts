@@ -8,6 +8,7 @@ import { bookmarkRoutes } from './bookmark.routes.js';
 import { searchRoutes } from './search.routes.js';
 import { createAIRoutes } from './ai.routes.js';
 import { adminRoutes } from './admin.routes.js';
+import { toolsRoutes } from './tools.routes.js';
 
 /**
  * Create all API routes.
@@ -37,6 +38,9 @@ export function createRoutes(aiProvider: BaseAIProvider): Router {
 
   // Admin
   router.use('/admin', adminRoutes);
+
+  // Academic Utilities & Document Tools
+  router.use('/tools', toolsRoutes);
 
   return router;
 }

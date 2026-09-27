@@ -15,8 +15,12 @@ async function main() {
   const env = loadEnv();
   console.log(`\n🚀 SBMPNexus API — ${env.NODE_ENV} mode\n`);
 
-  // 2. Connect to MongoDB
-  await connectDB(env.MONGODB_URI);
+  // 2. Connect to MongoDB (with graceful fallback for local development)
+  try {
+    await connectDB(env.MONGODB_URI);
+  } catch (dbErr: any) {
+    console.warn(`⚠️ MongoDB unavailable (${dbErr.message}). Continuing in standalone development mode.`);
+  }
 
   // 3. Initialize AI provider
   const aiProvider = createAIProvider({

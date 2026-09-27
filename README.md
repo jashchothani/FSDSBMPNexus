@@ -63,6 +63,21 @@ sbmpnexus/
 └── docs/             # Documentation
 ```
 
+### Academic Utility & Document Suite
+
+SBMPNexus includes an integrated suite of 6 privacy-first academic productivity tools:
+
+| # | Tool | Academic Use Case | Priority | Route |
+|---|------|-------------------|----------|-------|
+| 1 | **PPT → PDF Converter** | Convert lecture & college presentations (.pptx) with live slide preview & custom handout themes | High | `/tools/ppt-to-pdf` |
+| 2 | **Word → PDF Converter** | Convert notices, assignments, lab manuals, and syllabus docs (.docx) preserving tables & formatting | High | `/tools/word-to-pdf` |
+| 3 | **PDF → Word (.docx) Editor** | Extract questions, model answers, and syllabus guides from PDF into editable Word files with live editor | High | `/tools/pdf-to-word` |
+| 4 | **ID Photo Background Remover** | Remove background for student ID photos, MSBTE hall tickets, certificates with 35x45mm presets & white/blue canvas | Medium | `/tools/background-remover` |
+| 5 | **Private Temporary Clipboard** | Transfer text, code snippets, and files between college lab PCs and mobile phones via 6-digit PIN & QR code with auto-destruction | Very High | `/tools/clipboard` |
+| 6 | **PDF Merge / Split / Compress** | Merge papers with answer schemes, split syllabus by chapters, and compress exam PDFs to < 2MB for portal upload | High | `/tools/pdf-manage` |
+
+Central Hub: `http://localhost:3000/tools`
+
 ### Environment Variables
 
 See [.env.example](.env.example) for all required and optional variables.
@@ -76,3 +91,4 @@ Get your API key from [build.nvidia.com](https://build.nvidia.com).
 ## License
 
 Private — All rights reserved.
+
