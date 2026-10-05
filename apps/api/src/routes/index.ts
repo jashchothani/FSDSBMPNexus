@@ -10,6 +10,8 @@ import { createAIRoutes } from './ai.routes.js';
 import { adminRoutes } from './admin.routes.js';
 import { arenaRoutes } from './arena.routes.js';
 
+import { curriculumRoutes } from './curriculum.routes.js';
+
 /**
  * Create all API routes.
  * The AI provider is injected here to avoid global state.
@@ -20,8 +22,9 @@ export function createRoutes(aiProvider: BaseAIProvider): Router {
   // Auth
   router.use('/auth', authRoutes);
 
-  // Academic hierarchy
+  // Academic hierarchy & Curriculum
   router.use('/', academicRoutes);
+  router.use('/curriculum', curriculumRoutes);
 
   // Content
   router.use('/papers', paperRoutes);

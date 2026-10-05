@@ -13,8 +13,18 @@ const paperSchema = new Schema<PaperDocument>(
     year: { type: Number, required: true, min: 1990, max: 2100 },
     examType: {
       type: String,
-      enum: ['MID_SEM', 'END_SEM', 'SUPPLEMENTARY', 'INTERNAL', 'PRACTICE', 'OTHER'],
+      enum: ['PT1', 'PT2', 'MID_SEM', 'END_SEM', 'END_SEM_WINTER', 'END_SEM_SUMMER', 'SUPPLEMENTARY', 'INTERNAL', 'PRACTICE', 'OTHER'],
       required: true,
+    },
+    scheme: {
+      type: String,
+      enum: ['K-Scheme', 'I-Scheme', 'Revised'],
+      default: 'K-Scheme',
+    },
+    uploadedByRole: {
+      type: String,
+      enum: ['STUDENT', 'CR', 'TEACHER', 'ADMIN'],
+      default: 'STUDENT',
     },
     title: { type: String, trim: true, maxlength: 300 },
     fileUrl: { type: String, required: true },

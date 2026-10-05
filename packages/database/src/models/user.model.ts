@@ -18,7 +18,7 @@ const userSchema = new Schema<UserDocument>(
     lastName: { type: String, required: true, trim: true, maxlength: 100 },
     role: {
       type: String,
-      enum: ['STUDENT', 'CONTRIBUTOR', 'FACULTY', 'MODERATOR', 'ADMIN'],
+      enum: ['STUDENT', 'CR', 'TEACHER', 'FACULTY', 'CONTRIBUTOR', 'MODERATOR', 'ADMIN'],
       default: 'STUDENT',
       index: true,
     },

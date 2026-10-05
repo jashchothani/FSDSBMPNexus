@@ -58,5 +58,6 @@ export { Match, type MatchDocument } from './models/match.model.js';
 export { Achievement, UserAchievement, type AchievementDocument, type UserAchievementDocument } from './models/achievement.model.js';
 export { XPTransaction, type XPTransactionDocument } from './models/xp-transaction.model.js';
 export { Leaderboard, type LeaderboardDocument } from './models/leaderboard.model.js';
+export { Curriculum, type CurriculumDocument } from './models/curriculum.model.js';
 
 

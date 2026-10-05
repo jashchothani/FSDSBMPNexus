@@ -6,7 +6,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 import { loadEnv } from '@repo/config';
-import { connectDB, disconnectDB, Problem, Achievement, User, Room, Message } from '@repo/database';
+import { connectDB, disconnectDB, Problem, Achievement, User, Room, Message, Curriculum, Paper } from '@repo/database';
 import bcrypt from 'bcrypt';
 
 const PROBLEMS = [
@@ -148,6 +148,26 @@ async function seed() {
       isEmailVerified: true,
       gamification: { xp: 4100, streak: 15, longestStreak: 18, rating: 1580, problemsSolved: 62, rank: 'GRANDMASTER', badges: ['TOP_CODER'] },
     },
+    {
+      email: 'cr@sbmp.edu.in',
+      passwordHash,
+      firstName: 'Rohan',
+      lastName: 'Gupta (CR)',
+      role: 'CR',
+      authProvider: 'LOCAL',
+      isEmailVerified: true,
+      gamification: { xp: 4500, streak: 20, longestStreak: 22, rating: 1520, problemsSolved: 55, rank: 'DIAMOND', badges: ['CLASS_REPRESENTATIVE', 'PAPER_CONTRIBUTOR'] },
+    },
+    {
+      email: 'teacher@sbmp.edu.in',
+      passwordHash,
+      firstName: 'Prof. Anjali',
+      lastName: 'Shah',
+      role: 'TEACHER',
+      authProvider: 'LOCAL',
+      isEmailVerified: true,
+      gamification: { xp: 12000, streak: 40, longestStreak: 45, rating: 2400, problemsSolved: 200, rank: 'GRANDMASTER', badges: ['FACULTY_HEAD', 'CURRICULUM_DESIGNER'] },
+    },
   ];
 
   for (const u of usersToSeed) {
@@ -157,7 +177,7 @@ async function seed() {
       { upsert: true, new: true }
     );
   }
-  console.log(`✅ Users seeded: jash@sbmp.edu.in (password123), admin@sbmp.edu.in (admin123)\n`);
+  console.log(`✅ Users seeded: jash (Student), cr (CR), teacher (Teacher), admin (Admin)\n`);
 
   // Seed Problems
   console.log(`📝 Seeding ${PROBLEMS.length} problems...`);
@@ -225,7 +245,126 @@ async function seed() {
     console.log(`✅ Chat messages seeded.\n`);
   }
 
-  console.log('🎉 Nexus Arena & Database seeded successfully!');
+  // Seed SBMP Computer Engineering Department Curriculum (K-Scheme & I-Scheme)
+  console.log('🎓 Seeding SBMP Computer Engineering Department Curriculum...');
+  const curriculumEntries = [
+    {
+      department: 'Computer Engineering',
+      scheme: 'K-Scheme (Latest)',
+      semester: 1,
+      subjectCode: '311301',
+      subjectName: 'Basic Mathematics & Fundamentals',
+      credits: 4,
+      theoryMarks: 70,
+      pt1Marks: 20,
+      pt2Marks: 20,
+      practicalMarks: 50,
+      isLatestScheme: true,
+      units: [
+        { unitNo: 1, unitTitle: 'Algebra & Logarithms', weightageMarks: 14, topics: ['Determinants', 'Matrices', 'Partial Fractions'] },
+        { unitNo: 2, unitTitle: 'Trigonometry', weightageMarks: 14, topics: ['Compound Angles', 'Multiple Angles'] },
+      ],
+    },
+    {
+      department: 'Computer Engineering',
+      scheme: 'K-Scheme (Latest)',
+      semester: 1,
+      subjectCode: '311302',
+      subjectName: 'Python Programming Basics',
+      credits: 4,
+      theoryMarks: 70,
+      pt1Marks: 20,
+      pt2Marks: 20,
+      practicalMarks: 50,
+      isLatestScheme: true,
+      units: [
+        { unitNo: 1, unitTitle: 'Introduction to Python & Data Types', weightageMarks: 12, topics: ['Variables', 'Control Flow', 'Loops'] },
+        { unitNo: 2, unitTitle: 'Functions & Modules', weightageMarks: 14, topics: ['Def', 'Built-in Modules', 'Scope'] },
+      ],
+    },
+    {
+      department: 'Computer Engineering',
+      scheme: 'K-Scheme (Latest)',
+      semester: 3,
+      subjectCode: '313301',
+      subjectName: 'Data Structures using C/C++',
+      credits: 5,
+      theoryMarks: 70,
+      pt1Marks: 20,
+      pt2Marks: 20,
+      practicalMarks: 50,
+      isLatestScheme: true,
+      units: [
+        { unitNo: 1, unitTitle: 'Arrays & Pointers', weightageMarks: 12, topics: ['Traversal', 'In-place reversal', 'Kadane Algorithm'] },
+        { unitNo: 2, unitTitle: 'Singly & Doubly Linked Lists', weightageMarks: 14, topics: ['Traversal', 'Cycle Detection', 'Reversal'] },
+        { unitNo: 3, unitTitle: 'Stacks & Queues', weightageMarks: 14, topics: ['Infix to Postfix', 'Evaluation', 'Circular Queue'] },
+        { unitNo: 4, unitTitle: 'Trees & BST', weightageMarks: 16, topics: ['Traversals', 'BST Inserion', 'AVL Rotations'] },
+        { unitNo: 5, unitTitle: 'Graphs & Hashing', weightageMarks: 14, topics: ['BFS', 'DFS', 'Hash Tables'] },
+      ],
+    },
+    {
+      department: 'Computer Engineering',
+      scheme: 'K-Scheme (Latest)',
+      semester: 3,
+      subjectCode: '313302',
+      subjectName: 'Object Oriented Programming (C++)',
+      credits: 4,
+      theoryMarks: 70,
+      pt1Marks: 20,
+      pt2Marks: 20,
+      practicalMarks: 50,
+      isLatestScheme: true,
+      units: [
+        { unitNo: 1, unitTitle: 'Classes & Objects', weightageMarks: 12, topics: ['Constructors', 'Destructors', 'Friend Functions'] },
+        { unitNo: 2, unitTitle: 'Inheritance & Polymorphism', weightageMarks: 16, topics: ['Virtual Functions', 'Function Overloading'] },
+      ],
+    },
+    {
+      department: 'Computer Engineering',
+      scheme: 'I-Scheme',
+      semester: 4,
+      subjectCode: '22412',
+      subjectName: 'Database Management Systems',
+      credits: 4,
+      theoryMarks: 70,
+      pt1Marks: 20,
+      pt2Marks: 20,
+      practicalMarks: 50,
+      isLatestScheme: false,
+      units: [
+        { unitNo: 1, unitTitle: 'ER Modeling & Relational Schema', weightageMarks: 14, topics: ['Entities', 'Keys', 'Normalization'] },
+        { unitNo: 2, unitTitle: 'SQL Queries & Joins', weightageMarks: 16, topics: ['DDL', 'DML', 'Inner/Outer Joins', 'Subqueries'] },
+      ],
+    },
+    {
+      department: 'Computer Engineering',
+      scheme: 'I-Scheme',
+      semester: 5,
+      subjectCode: '22517',
+      subjectName: 'Advanced Java Programming',
+      credits: 5,
+      theoryMarks: 70,
+      pt1Marks: 20,
+      pt2Marks: 20,
+      practicalMarks: 50,
+      isLatestScheme: false,
+      units: [
+        { unitNo: 1, unitTitle: 'Abstract Window Toolkit & Swings', weightageMarks: 14, topics: ['Event Handling', 'JComponents'] },
+        { unitNo: 2, unitTitle: 'JDBC & Network Programming', weightageMarks: 16, topics: ['DriverManager', 'Statements', 'Sockets'] },
+      ],
+    },
+  ];
+
+  for (const curr of curriculumEntries) {
+    await Curriculum.findOneAndUpdate(
+      { department: curr.department, scheme: curr.scheme, subjectCode: curr.subjectCode },
+      curr,
+      { upsert: true, new: true }
+    );
+  }
+  console.log(`✅ ${curriculumEntries.length} SBMP Curriculum entries seeded.\n`);
+
+  console.log('🎉 SBMPNexus Arena & Database seeded successfully!');
   await disconnectDB();
   process.exit(0);
 }

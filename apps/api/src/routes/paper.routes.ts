@@ -161,4 +161,56 @@ router.patch(
   }
 );
 
+/**
+ * POST /api/papers
+ * Upload/Create a new paper (PT1, PT2, EndSem, etc.)
+ * Permissions: CR, TEACHER, FACULTY, ADMIN
+ */
+router.post('/', authenticate, async (req, res, next) => {
+  try {
+    const userRole = (req as any).user?.role;
+    const allowedRoles = ['CR', 'TEACHER', 'FACULTY', 'ADMIN'];
+    
+    if (!userRole || !allowedRoles.includes(userRole)) {
+      throw new AppError(403, 'FORBIDDEN', 'Only CR and Teacher accounts can upload papers');
+    }
+
+    const {
+      title,
+      subjectName,
+      semester,
+      year,
+      examType,
+      fileUrl,
+      solutionUrl,
+      scheme = 'K-Scheme (Latest)',
+    } = req.body;
+
+    if (!title || !semester || !year || !examType) {
+      throw new AppError(400, 'BAD_REQUEST', 'Title, semester, year, and examType are required');
+    }
+
+    const paper = await Paper.create({
+      title,
+      subjectName: subjectName || title,
+      semester: Number(semester),
+      year: Number(year),
+      examType,
+      scheme,
+      fileUrl: fileUrl || 'https://sbmp.ac.in/computer-engineering/#Curriculum',
+      solutionUrl: solutionUrl || '',
+      uploadedBy: (req as any).user.userId,
+      uploadedByRole: userRole,
+      status: 'APPROVED', // auto-approve for CR/Teacher uploads
+      isVerified: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: paper,
+      message: 'Paper uploaded successfully',
+    });
+  } catch (error) { next(error); }
+});
+
 export { router as paperRoutes };

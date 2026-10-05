@@ -6,8 +6,10 @@ import { z } from 'zod';
 
 export const UserRole = {
   STUDENT: 'STUDENT',
-  CONTRIBUTOR: 'CONTRIBUTOR',
+  CR: 'CR',
+  TEACHER: 'TEACHER',
   FACULTY: 'FACULTY',
+  CONTRIBUTOR: 'CONTRIBUTOR',
   MODERATOR: 'MODERATOR',
   ADMIN: 'ADMIN',
 } as const;
